@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import dayjs from 'dayjs';
 
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,5 +15,5 @@ app.get('/api', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port PORT`);
+  console.log(`Server running on port ${PORT}`);
 });
