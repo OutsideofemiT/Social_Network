@@ -15,7 +15,7 @@ export const getUsers = async (req, res) => {
 		if (!user) {	
 		return res.status(404).json({ message: 'User not found'});	
 	 }
-		res.status(200).json(users);
+		res.status(200).json(user);
 	}	catch (error) {
 		res.status(500).jsob({error: error.message });
 	 }
