@@ -27,3 +27,7 @@ export const getUsers = async (req, res) => {
 		}
 	}
   
+	//updateUser
+	//deleteUser
+	//addFriend
+	//removeFriend
