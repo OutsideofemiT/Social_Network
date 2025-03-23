@@ -162,6 +162,40 @@ app.delete('/api/thoughts/:thoughtId', async (req, res) => {
     res.status(500).json({ message: 'Error deleting the thought', error });
   }
 });
+// Route to add a friend to a user's friend list
+app.post('/api/users/:userId/friends/:friendId', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $push: { friends: req.params.friendId } },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding friend', error });
+  }
+});
+
+// Route to remove a friend from a user's friend list
+app.delete('/api/users/:userId/friends/:friendId', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error removing friend', error });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
