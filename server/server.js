@@ -21,7 +21,9 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is working!' });
 });
 
+// ----------------------
 // Routes for Users
+// ----------------------
 
 // GET all users
 app.get('/api/users', async (req, res) => {
@@ -73,7 +75,9 @@ app.delete('/api/users/:userId', async (req, res) => {
   }
 });
 
+// ----------------------
 // Routes for Thoughts
+// ----------------------
 
 // GET all thoughts
 app.get('/api/thoughts', async (req, res) => {
@@ -162,7 +166,12 @@ app.delete('/api/thoughts/:thoughtId', async (req, res) => {
     res.status(500).json({ message: 'Error deleting the thought', error });
   }
 });
-// Route to add a friend to a user's friend list
+
+// ----------------------
+// Routes for Friends
+// ----------------------
+
+// Add a friend to a user's friend list
 app.post('/api/users/:userId/friends/:friendId', async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -179,7 +188,7 @@ app.post('/api/users/:userId/friends/:friendId', async (req, res) => {
   }
 });
 
-// Route to remove a friend from a user's friend list
+// Remove a friend from a user's friend list
 app.delete('/api/users/:userId/friends/:friendId', async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -196,7 +205,46 @@ app.delete('/api/users/:userId/friends/:friendId', async (req, res) => {
   }
 });
 
+// ----------------------
+// Routes for Reactions
+// ----------------------
+
+// Add a reaction to a thought
+app.post('/api/thoughts/:thoughtId/reactions', async (req, res) => {
+  try {
+    // Expect the request body to contain reactionBody and username
+    const updatedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      { $push: { reactions: req.body } },
+      { new: true, runValidators: true }
+    );
+    if (!updatedThought) {
+      return res.status(404).json({ message: 'No thought found with that ID' });
+    }
+    res.status(200).json(updatedThought);
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding reaction', error });
+  }
+});
+
+// Remove a reaction from a thought
+app.delete('/api/thoughts/:thoughtId/reactions/:reactionId', async (req, res) => {
+  try {
+    const updatedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { new: true }
+    );
+    if (!updatedThought) {
+      return res.status(404).json({ message: 'No thought found with that ID' });
+    }
+    res.status(200).json(updatedThought);
+  } catch (error) {
+    res.status(500).json({ message: 'Error removing reaction', error });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
