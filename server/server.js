@@ -21,9 +21,9 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is working!' });
 });
 
-// ----------------------
+
 // Routes for Users
-// ----------------------
+
 
 // GET all users
 app.get('/api/users', async (req, res) => {
@@ -75,9 +75,7 @@ app.delete('/api/users/:userId', async (req, res) => {
   }
 });
 
-// ----------------------
 // Routes for Thoughts
-// ----------------------
 
 // GET all thoughts
 app.get('/api/thoughts', async (req, res) => {
@@ -92,7 +90,7 @@ app.get('/api/thoughts', async (req, res) => {
 // POST (create) a new thought (userId is required)
 app.post('/api/thoughts', async (req, res) => {
   try {
-    // Ensure userId is provided in the request body
+    
     if (!req.body.userId) {
       return res.status(400).json({ message: 'Please provide a userId.' });
     }
@@ -100,20 +98,17 @@ app.post('/api/thoughts', async (req, res) => {
     // Create the new thought
     const newThought = await Thought.create(req.body);
 
-    // Push the new thought's _id into the user's "thoughts" array
     const updatedUser = await User.findByIdAndUpdate(
       req.body.userId,
       { $push: { thoughts: newThought._id } },
       { new: true }
     );
 
-    // If no user is found, remove the newly created thought to avoid orphans
     if (!updatedUser) {
       await Thought.findByIdAndDelete(newThought._id);
       return res.status(404).json({ message: 'No user found with that userId.' });
     }
 
-    // Respond with the created thought and updated user
     res.status(201).json({
       message: 'Thought created and linked to user successfully!',
       thought: newThought,
@@ -167,11 +162,9 @@ app.delete('/api/thoughts/:thoughtId', async (req, res) => {
   }
 });
 
-// ----------------------
-// Routes for Friends
-// ----------------------
 
-// Add a friend to a user's friend list
+// Routes for Friends
+
 app.post('/api/users/:userId/friends/:friendId', async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -205,14 +198,11 @@ app.delete('/api/users/:userId/friends/:friendId', async (req, res) => {
   }
 });
 
-// ----------------------
-// Routes for Reactions
-// ----------------------
 
 // Add a reaction to a thought
 app.post('/api/thoughts/:thoughtId/reactions', async (req, res) => {
   try {
-    // Expect the request body to contain reactionBody and username
+    
     const updatedThought = await Thought.findByIdAndUpdate(
       req.params.thoughtId,
       { $push: { reactions: req.body } },
