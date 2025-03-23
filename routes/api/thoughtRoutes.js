@@ -1,12 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const {
-  getThoughts,
-  getSingleThought,
-  createThought,
-  updateThought,
-  deleteThought,
-} = require('../../controllers/thoughtController');
+import { Router } from 'express';
+const router = Router();
+import { getThoughts, getSingleThought, createThought, updateThought, deleteThought } from '../thoughtController';
 
 // Route to get all thoughts and create a new thought
 router.route('/')
@@ -19,4 +13,4 @@ router.route('/:thoughtId')
   .put(updateThought)
   .delete(deleteThought);
 
-module.exports = router;
+export default router;

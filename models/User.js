@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   email: {
-	type: string,
+	type: String,
 	required: true,
 	unique: true,
 	match: [/.+@.+\..+/, 'Please enter a valid email address'],
@@ -35,9 +35,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.virtual('friendCount').get(function () {
-	return tis.friends.length;
+	return this.friends.length;
 });
 
 const User = mongoose.model('User', userSchema);
 
-export default User.js
+export default User;
