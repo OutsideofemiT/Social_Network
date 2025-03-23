@@ -1,20 +1,118 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import routes from './routes/index.js'; // Top-level route aggregator
+import mongoose from 'mongoose';
+import User from '../models/User.js';  
+import Thought from '../models/Thought.js';
+
 
 dotenv.config();
-const PORT = process.env.PORT || 3000;
+
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
-  .catch(error => console.error('Error connecting to MongoDB:', error));
+  .catch((error) => console.log('Error connecting to MongoDB: ', error));
 
-// Use your top-level routes
-app.use(routes);
+// API working route
+app.get('/api', (req, res) => {
+  res.json({ message: 'API is working!' });
+});
+
+// Route to get users
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find();  // Fetch all users from MongoDB
+    res.status(200).json(users);  // Send the users as a response
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users', error });
+  }
+});
+// Route to get all thoughts
+app.get('/api/thoughts', async (req, res) => {
+  try {
+    const thoughts = await Thought.find(); // Fetch all thoughts
+    res.status(200).json(thoughts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching thoughts', error });
+  }
+});
+// Route to create a new thought
+app.post('/api/thoughts', async (req, res) => {
+  try {
+    // Example request body shape:
+    // {
+    //   "thoughtText": "This is cool",
+    //   "username": "bob",
+    //   "userId": "SOME_USER_ID_HERE"
+    // }
+
+    // 1. Create the new thought
+    const newThought = await Thought.create(req.body);
+
+    // 2. (Optional but recommended) Push this thought's _id into the user's "thoughts" array
+    //    if you want to link it to a specific user.
+    if (req.body.userId) {
+      await User.findByIdAndUpdate(
+        req.body.userId,
+        { $push: { thoughts: newThought._id } },
+        { new: true }
+      );
+    }
+
+    // 3. Send back the newly created thought
+    res.status(201).json(newThought);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating thought', error });
+  }
+});
+// Route to get a single thought by ID
+app.get('/api/thoughts/:thoughtId', async (req, res) => {
+  try {
+    const thought = await Thought.findById(req.params.thoughtId);
+    if (!thought) {
+      return res.status(404).json({ message: 'No thought found with that ID' });
+    }
+    res.status(200).json(thought);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching the thought', error });
+  }
+});
+
+// Route to update a thought
+app.put('/api/thoughts/:thoughtId', async (req, res) => {
+  try {
+    const updatedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedThought) {
+      return res.status(404).json({ message: 'No thought found with that ID' });
+    }
+    res.status(200).json(updatedThought);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating the thought', error });
+  }
+});
+
+// Route to delete a thought
+app.delete('/api/thoughts/:thoughtId', async (req, res) => {
+  try {
+    const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
+    if (!deletedThought) {
+      return res.status(404).json({ message: 'No thought found with that ID' });
+    }
+    // (Optional) If you want to remove this thought’s ID from a user’s “thoughts” array,
+    // you can do that here if you’re storing userId in the thought, or pass in the userId in body
+    res.status(200).json({ message: 'Thought deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting the thought', error });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
