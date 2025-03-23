@@ -1,9 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import User from '../models/User.js';  
+import User from '../models/User.js';
 import Thought from '../models/Thought.js';
-
 
 dotenv.config();
 
@@ -31,6 +30,7 @@ app.get('/api/users', async (req, res) => {
     res.status(500).json({ message: 'Error fetching users', error });
   }
 });
+
 // Route to get all thoughts
 app.get('/api/thoughts', async (req, res) => {
   try {
@@ -40,35 +40,42 @@ app.get('/api/thoughts', async (req, res) => {
     res.status(500).json({ message: 'Error fetching thoughts', error });
   }
 });
-// Route to create a new thought
+
+// Route to create a new thought (userId is now required)
 app.post('/api/thoughts', async (req, res) => {
   try {
-    // Example request body shape:
-    // {
-    //   "thoughtText": "This is cool",
-    //   "username": "bob",
-    //   "userId": "SOME_USER_ID_HERE"
-    // }
-
-    // 1. Create the new thought
-    const newThought = await Thought.create(req.body);
-
-    // 2. (Optional but recommended) Push this thought's _id into the user's "thoughts" array
-    //    if you want to link it to a specific user.
-    if (req.body.userId) {
-      await User.findByIdAndUpdate(
-        req.body.userId,
-        { $push: { thoughts: newThought._id } },
-        { new: true }
-      );
+    // 1. Verify userId is provided
+    if (!req.body.userId) {
+      return res.status(400).json({ message: 'Please provide a userId.' });
     }
 
-    // 3. Send back the newly created thought
-    res.status(201).json(newThought);
+    // 2. Create the new thought
+    const newThought = await Thought.create(req.body);
+
+    // 3. Push the new thought's _id into the specified user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.body.userId,
+      { $push: { thoughts: newThought._id } },
+      { new: true }
+    );
+
+    // If no user found, optionally remove the newly created thought (so it's not orphaned)
+    if (!updatedUser) {
+      await Thought.findByIdAndDelete(newThought._id);
+      return res.status(404).json({ message: 'No user found with that userId.' });
+    }
+
+    // 4. Return the created thought (and/or the updated user if you like)
+    res.status(201).json({
+      message: 'Thought created and linked to user successfully!',
+      thought: newThought,
+      user: updatedUser
+    });
   } catch (error) {
     res.status(500).json({ message: 'Error creating thought', error });
   }
 });
+
 // Route to get a single thought by ID
 app.get('/api/thoughts/:thoughtId', async (req, res) => {
   try {
@@ -106,8 +113,6 @@ app.delete('/api/thoughts/:thoughtId', async (req, res) => {
     if (!deletedThought) {
       return res.status(404).json({ message: 'No thought found with that ID' });
     }
-    // (Optional) If you want to remove this thought’s ID from a user’s “thoughts” array,
-    // you can do that here if you’re storing userId in the thought, or pass in the userId in body
     res.status(200).json({ message: 'Thought deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting the thought', error });
