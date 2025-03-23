@@ -21,51 +21,95 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is working!' });
 });
 
-// Route to get users
+// Routes for Users
+
+// GET all users
 app.get('/api/users', async (req, res) => {
   try {
-    const users = await User.find();  // Fetch all users from MongoDB
-    res.status(200).json(users);  // Send the users as a response
+    const users = await User.find();  
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching users', error });
   }
 });
 
-// Route to get all thoughts
+// POST (create) a new user
+app.post('/api/users', async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating user', error });
+  }
+});
+
+// PUT (update) a user by ID
+app.put('/api/users/:userId', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user', error });
+  }
+});
+
+// DELETE a user by ID
+app.delete('/api/users/:userId', async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.userId);
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting user', error });
+  }
+});
+
+// Routes for Thoughts
+
+// GET all thoughts
 app.get('/api/thoughts', async (req, res) => {
   try {
-    const thoughts = await Thought.find(); // Fetch all thoughts
+    const thoughts = await Thought.find();
     res.status(200).json(thoughts);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching thoughts', error });
   }
 });
 
-// Route to create a new thought (userId is now required)
+// POST (create) a new thought (userId is required)
 app.post('/api/thoughts', async (req, res) => {
   try {
-    // 1. Verify userId is provided
+    // Ensure userId is provided in the request body
     if (!req.body.userId) {
       return res.status(400).json({ message: 'Please provide a userId.' });
     }
 
-    // 2. Create the new thought
+    // Create the new thought
     const newThought = await Thought.create(req.body);
 
-    // 3. Push the new thought's _id into the specified user
+    // Push the new thought's _id into the user's "thoughts" array
     const updatedUser = await User.findByIdAndUpdate(
       req.body.userId,
       { $push: { thoughts: newThought._id } },
       { new: true }
     );
 
-    // If no user found, optionally remove the newly created thought (so it's not orphaned)
+    // If no user is found, remove the newly created thought to avoid orphans
     if (!updatedUser) {
       await Thought.findByIdAndDelete(newThought._id);
       return res.status(404).json({ message: 'No user found with that userId.' });
     }
 
-    // 4. Return the created thought (and/or the updated user if you like)
+    // Respond with the created thought and updated user
     res.status(201).json({
       message: 'Thought created and linked to user successfully!',
       thought: newThought,
@@ -76,7 +120,7 @@ app.post('/api/thoughts', async (req, res) => {
   }
 });
 
-// Route to get a single thought by ID
+// GET a single thought by ID
 app.get('/api/thoughts/:thoughtId', async (req, res) => {
   try {
     const thought = await Thought.findById(req.params.thoughtId);
@@ -89,7 +133,7 @@ app.get('/api/thoughts/:thoughtId', async (req, res) => {
   }
 });
 
-// Route to update a thought
+// PUT (update) a thought by ID
 app.put('/api/thoughts/:thoughtId', async (req, res) => {
   try {
     const updatedThought = await Thought.findByIdAndUpdate(
@@ -106,7 +150,7 @@ app.put('/api/thoughts/:thoughtId', async (req, res) => {
   }
 });
 
-// Route to delete a thought
+// DELETE a thought by ID
 app.delete('/api/thoughts/:thoughtId', async (req, res) => {
   try {
     const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
