@@ -106,37 +106,38 @@ Test Endpoints with Insomnia:
   "username": "newUsername"
 }
 
-💭 Thoughts
-Method	Endpoint	Description
-GET	/api/thoughts	📚 Returns all thoughts
-GET	/api/thoughts/:thoughtId	🔍 Returns a single thought by ID
-POST	/api/thoughts	✏️ Creates a new thought
-PUT	/api/thoughts/:thoughtId	🛠️ Updates a thought by ID
-DELETE	/api/thoughts/:thoughtId	❌ Deletes a thought by ID
+### 💭 Thoughts
 
-✏️ Example – Create a Thought:
+| **Method** | **Endpoint**                     | **Description**                     |
+|------------|----------------------------------|-------------------------------------|
+| GET        | `/api/thoughts`                 | 📚 Returns all thoughts             |
+| GET        | `/api/thoughts/:thoughtId`      | 🔍 Returns a single thought by ID   |
+| POST       | `/api/thoughts`                 | ✏️ Creates a new thought            |
+| PUT        | `/api/thoughts/:thoughtId`      | 🛠️ Updates a thought by ID         |
+| DELETE     | `/api/thoughts/:thoughtId`      | ❌ Deletes a thought by ID          |
+
+**✏️ Example – Create a Thought:**
+```json
 {
   "thoughtText": "Here's a cool thought!",
   "username": "bob",
   "userId": "SOME_EXISTING_USER_ID"
 }
 
-🛠️ Example – Update a Thought:
-{
-  "thoughtText": "Updated thought text"
-}
-## 💬 Reactions
-Method	Endpoint	Description
-POST	/api/thoughts/:thoughtId/reactions	💥 Adds a reaction to a thought
-DELETE	/api/thoughts/:thoughtId/reactions/:reactionId	🗑️ Removes a reaction from a thought
+### 💬 Reactions
 
-💬 Example – Add a Reaction:
+| **Method** | **Endpoint**                                           | **Description**                          |
+|------------|--------------------------------------------------------|------------------------------------------|
+| POST       | `/api/thoughts/:thoughtId/reactions`                  | 💥 Adds a reaction to a thought          |
+| DELETE     | `/api/thoughts/:thoughtId/reactions/:reactionId`      | 🗑️ Removes a reaction from a thought     |
 
-Copy
+**💬 Example – Add a Reaction:**
+```json
 {
   "reactionBody": "I really like this thought!",
   "username": "alice"
 }
+
 
 🔍 Use Insomnia
 Use Insomnia to test the API endpoints above. Each route supports proper HTTP verbs and requires the appropriate JSON body when applicable. Use the seeded user/thought IDs in your requests.
