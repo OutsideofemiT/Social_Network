@@ -44,5 +44,5 @@ _As a social media startup, I want an API for my social network that uses a NoSQ
 1. **Clone the Repository:**
 
 
-   git clone https://github.com/outsideofemit/Social_Network.git
+   git clone https://github.com/outsideofemiT/Social_Network.git
    cd Social_Network
