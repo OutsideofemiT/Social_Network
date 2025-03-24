@@ -79,89 +79,74 @@ Test Endpoints with Insomnia:
 
 # Use Insomnia (or Postman) to send requests to your API endpoints as outlined below.
 
-API Endpoints
-Users
-GET /api/users
-Returns all users.
+## 🚀 API Endpoints
 
-GET /api/users/:userId
-Returns a single user by ID.
+### 👤 Users
 
-POST /api/users
-Creates a new user.
-Example JSON Body:
+| Method | Endpoint                                | Description                               |
+|--------|-----------------------------------------|-------------------------------------------|
+| GET    | `/api/users`                            | 🔍 Returns all users                       |
+| GET    | `/api/users/:userId`                    | 🔎 Returns a single user by ID             |
+| POST   | `/api/users`                            | ✍️ Creates a new user                      |
+| PUT    | `/api/users/:userId`                    | 🛠️ Updates a user by ID                   |
+| DELETE | `/api/users/:userId`                    | ❌ Deletes a user by ID                    |
+| POST   | `/api/users/:userId/friends/:friendId`  | ➕ Adds a friend to a user's friend list   |
+| DELETE | `/api/users/:userId/friends/:friendId`  | ➖ Removes a friend from a user's friend list |
 
-json
-
+**📦 Example – Create a New User:**
+```json
 {
   "username": "lernantino",
   "email": "lernantino@gmail.com"
 }
-PUT /api/users/:userId
-Updates a user by ID.
-Example JSON Body:
 
-json
-
+**🛠️ Example – Update a User:**
 {
   "username": "newUsername"
 }
-DELETE /api/users/:userId
-Deletes a user by ID.
-
-POST /api/users/:userId/friends/:friendId
-Adds a friend to a user's friend list.
-
-DELETE /api/users/:userId/friends/:friendId
-Removes a friend from a user's friend list.
-
-Thoughts
-GET /api/thoughts
-Returns all thoughts.
-
-GET /api/thoughts/:thoughtId
-Returns a single thought by ID.
-
-POST /api/thoughts
-Creates a new thought and es its ID to the associated user's thoughts array.
-Example JSON Body:
-
-json
-
+**💭 Thoughts**
+Method	Endpoint	Description
+GET	/api/thoughts	📚 Returns all thoughts
+GET	/api/thoughts/:thoughtId	🔍 Returns a single thought by ID
+POST	/api/thoughts	✏️ Creates a new thought
+PUT	/api/thoughts/:thoughtId	🛠️ Updates a thought by ID
+DELETE	/api/thoughts/:thoughtId	❌ Deletes a thought by ID
+**✏️ Example – Create a Thought:**
 {
   "thoughtText": "Here's a cool thought!",
   "username": "bob",
   "userId": "SOME_EXISTING_USER_ID"
 }
-PUT /api/thoughts/:thoughtId
-Updates a thought by ID.
-
-Example JSON Body:
-
-json
-
+**🛠️ Example – Update a Thought:**
 {
   "thoughtText": "Updated thought text"
 }
+## 💬 Reactions
+Method	Endpoint	Description
+POST	/api/thoughts/:thoughtId/reactions	💥 Adds a reaction to a thought
+DELETE	/api/thoughts/:thoughtId/reactions/:reactionId	🗑️ Removes a reaction from a thought
 
-DELETE /api/thoughts/:thoughtId
+**💬 Example – Add a Reaction:**
 
-Deletes a thought by ID.
-
-Reactions
-POST /api/thoughts/:thoughtId/reactions
-Adds a reaction to a thought.
-
-Example JSON Body:
-
-json
-
+Copy
 {
   "reactionBody": "I really like this thought!",
   "username": "alice"
 }
-DELETE /api/thoughts/:thoughtId/reactions/:reactionId
-Removes a reaction from a thought by reaction ID.
+🔍 Use Insomnia
+Use Insomnia to test the API endpoints above. Each route supports proper HTTP verbs and requires the appropriate JSON body when applicable. Use the seeded user/thought IDs in your requests.
+
+✅ Be sure to show:
+
+Creating, updating, and deleting Users
+
+Adding and removing Friends
+
+Creating, updating, and deleting Thoughts
+
+Adding and deleting Reactions
+
+
 
 ## Walkthrough Video
 A walkthrough video demonstrating the functionality of each endpoint is available here:
