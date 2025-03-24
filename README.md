@@ -42,7 +42,7 @@ _As a social media startup, I want an API for my social network that uses a NoSQ
 
 ## Installation
 
-1. **Clone the Repository:**
+ **Clone the Repository:**
 
    
    git clone https://github.com/YourUsername/Social_Network.git
@@ -56,6 +56,7 @@ Set Up Environment Variables:
 # Create a .env file in the root directory and add:
 
 MONGODB_URI=mongodb://127.0.0.1:27017/socialNetworkDB
+
 PORT=3000
 
 # Seed the Database (Optional):
@@ -93,31 +94,34 @@ Test Endpoints with Insomnia:
 | POST   | `/api/users/:userId/friends/:friendId`  | ➕ Adds a friend to a user's friend list   |
 | DELETE | `/api/users/:userId/friends/:friendId`  | ➖ Removes a friend from a user's friend list |
 
-**📦 Example – Create a New User:**
-```json
+📦 Example – Create a New User:
+
 {
   "username": "lernantino",
   "email": "lernantino@gmail.com"
 }
 
-**🛠️ Example – Update a User:**
+🛠️ Example – Update a User:
 {
   "username": "newUsername"
 }
-**💭 Thoughts**
+
+💭 Thoughts
 Method	Endpoint	Description
 GET	/api/thoughts	📚 Returns all thoughts
 GET	/api/thoughts/:thoughtId	🔍 Returns a single thought by ID
 POST	/api/thoughts	✏️ Creates a new thought
 PUT	/api/thoughts/:thoughtId	🛠️ Updates a thought by ID
 DELETE	/api/thoughts/:thoughtId	❌ Deletes a thought by ID
-**✏️ Example – Create a Thought:**
+
+✏️ Example – Create a Thought:
 {
   "thoughtText": "Here's a cool thought!",
   "username": "bob",
   "userId": "SOME_EXISTING_USER_ID"
 }
-**🛠️ Example – Update a Thought:**
+
+🛠️ Example – Update a Thought:
 {
   "thoughtText": "Updated thought text"
 }
@@ -126,13 +130,14 @@ Method	Endpoint	Description
 POST	/api/thoughts/:thoughtId/reactions	💥 Adds a reaction to a thought
 DELETE	/api/thoughts/:thoughtId/reactions/:reactionId	🗑️ Removes a reaction from a thought
 
-**💬 Example – Add a Reaction:**
+💬 Example – Add a Reaction:
 
 Copy
 {
   "reactionBody": "I really like this thought!",
   "username": "alice"
 }
+
 🔍 Use Insomnia
 Use Insomnia to test the API endpoints above. Each route supports proper HTTP verbs and requires the appropriate JSON body when applicable. Use the seeded user/thought IDs in your requests.
 
@@ -170,6 +175,7 @@ This project is licensed under the MIT License.
 
 ## Contributing
 Feel free to fork this repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
 ## Contact
 Please reach out to me: outsideofemit@gmail.com
 
