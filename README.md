@@ -116,8 +116,8 @@ Test Endpoints with Insomnia:
 | PUT        | `/api/thoughts/:thoughtId`      | 🛠️ Updates a thought by ID         |
 | DELETE     | `/api/thoughts/:thoughtId`      | ❌ Deletes a thought by ID          |
 
-**✏️ Example – Create a Thought:**
-```json
+✏️ Example – Create a Thought:
+
 {
   "thoughtText": "Here's a cool thought!",
   "username": "bob",
@@ -131,8 +131,8 @@ Test Endpoints with Insomnia:
 | POST       | `/api/thoughts/:thoughtId/reactions`                  | 💥 Adds a reaction to a thought          |
 | DELETE     | `/api/thoughts/:thoughtId/reactions/:reactionId`      | 🗑️ Removes a reaction from a thought     |
 
-**💬 Example – Add a Reaction:**
-```json
+💬 Example – Add a Reaction:
+
 {
   "reactionBody": "I really like this thought!",
   "username": "alice"
