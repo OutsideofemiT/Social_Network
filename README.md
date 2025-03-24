@@ -159,16 +159,17 @@ A walkthrough video demonstrating the functionality of each endpoint is availabl
 Video Walkthrough
 
 
-## Tech Stack
-Express.js – Web framework for Node.js.
+## 🛠️ Tech Stack
 
-MongoDB – NoSQL database.
+A powerful combination of technologies used to build the Social_Network API:
 
-Mongoose – ODM for MongoDB.
-
-Day.js – For formatting timestamps.
-
-Insomnia – For API testing.
+| Tech        | Description                          | Badge |
+|-------------|--------------------------------------|--------|
+| ![Express](https://img.shields.io/badge/-Express.js-000?logo=express&logoColor=white) | Fast, unopinionated, minimalist web framework for Node.js | ⚡️ Handles routing and middleware |
+| ![MongoDB](https://img.shields.io/badge/-MongoDB-4EA94B?logo=mongodb&logoColor=white) | Flexible NoSQL database | 🧩 Stores users, thoughts, and reactions |
+| ![Mongoose](https://img.shields.io/badge/-Mongoose-880000?logo=mongoose&logoColor=white) | Elegant MongoDB object modeling for Node.js | 🔗 Schemas and validation |
+| ![Day.js](https://img.shields.io/badge/-Day.js-blue?logo=javascript&logoColor=white) | Lightweight JavaScript date library | ⏰ Formats `createdAt` timestamps |
+| ![Insomnia](https://img.shields.io/badge/-Insomnia-4000BF?logo=insomnia&logoColor=white) | API design and testing tool | 🧪 Test routes with full CRUD support |
 
 ## License
 This project is licensed under the MIT License.
