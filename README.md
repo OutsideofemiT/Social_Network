@@ -1,9 +1,8 @@
 # Social_Network API
-
-![License: MIT](https://imields.io/badge/License-MIT-yellow.svg)
-![Node.js Version](https://imields.io/badge/Node-%3E%3D14-blue.svg)
-![MongoDB](https://imields.io/badge/MongoDB-v4%2B-green.svg)
-
+![JavaScript](https://img.shields.io/badge/Language-JavaScript-yellow?logo=javascript)
+![Node.js](https://img.shields.io/badge/Runtime-Node.js-green?logo=node.js)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen?logo=mongodb)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 A robust RESTful API for a social network web application where users caare their thoughts, react to friends' thoughts, and manage friend lists. This API is built using **Express.js**, **MongoDB**, and **Mongoose**, with timestamps formatted via a getter method (using Day.js). All endpoints have been tested with Insomnia.
 
 ---
@@ -47,34 +46,36 @@ _As a social media startup, I want an API for my social network that uses a NoSQ
    git clone https://github.com/YourUsername/Social_Network.git
    cd Social_Network
 
-Install Dependencies:
+# Install Dependencies:
 
 npm install
 Set Up Environment Variables:
 
-Create a .env file in the root directory and add:
+# Create a .env file in the root directory and add:
 
 MONGODB_URI=mongodb://127.0.0.1:27017/socialNetworkDB
 PORT=3000
 
-Seed the Database (Optional):
+# Seed the Database (Optional):
 
 If you want to populate the database with sample data:
 
 
 node data/seed.js
 
-Usage
-Start the Server:
+## Usage
+
+# Start the Server:
 
 npm run start
-You should see output similar to:
+
+# You should see output similar to:
 
 Connected to MongoDB
 Server running on port 3000
 Test Endpoints with Insomnia:
 
-Use Insomnia (or Postman) to send requests to your API endpoints as outlined below.
+# Use Insomnia (or Postman) to send requests to your API endpoints as outlined below.
 
 API Endpoints
 Users
@@ -160,14 +161,13 @@ json
 DELETE /api/thoughts/:thoughtId/reactions/:reactionId
 Removes a reaction from a thought by reaction ID.
 
-Walkthrough Video
+## Walkthrough Video
 A walkthrough video demonstrating the functionality of each endpoint is available here:
 
 Video Walkthrough
 
-Include this video link in your README as required by the assignment.
 
-Tech Stack
+## Tech Stack
 Express.js – Web framework for Node.js.
 
 MongoDB – NoSQL database.
@@ -178,9 +178,10 @@ Day.js – For formatting timestamps.
 
 Insomnia – For API testing.
 
-License
+## License
 This project is licensed under the MIT License.
 
-Contributing
+## Contributing
 Feel free to fork this repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
+## Contact
+Please reach out to me: outsideofemit@gmail.com
