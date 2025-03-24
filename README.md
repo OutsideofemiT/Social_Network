@@ -3,6 +3,8 @@
 ![Node.js](https://img.shields.io/badge/Runtime-Node.js-green?logo=node.js)
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen?logo=mongodb)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
+
 A robust RESTful API for a social network web application where users caare their thoughts, react to friends' thoughts, and manage friend lists. This API is built using **Express.js**, **MongoDB**, and **Mongoose**, with timestamps formatted via a getter method (using Day.js). All endpoints have been tested with Insomnia.
 
 ---
