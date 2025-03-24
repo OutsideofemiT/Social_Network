@@ -139,10 +139,10 @@ Test Endpoints with Insomnia:
 }
 
 
-🔍 Use Insomnia
+# 🔍Insomnia
 Use Insomnia to test the API endpoints above. Each route supports proper HTTP verbs and requires the appropriate JSON body when applicable. Use the seeded user/thought IDs in your requests.
 
-✅ Be sure to show:
+# ✅ Be sure to show:
 
 Creating, updating, and deleting Users
 
