@@ -1,6 +1,32 @@
 import mongoose from 'mongoose';
 import dayjs from 'dayjs';
 
+// Define the reactionSchema directly within this file
+const reactionSchema = new mongoose.Schema(
+  {
+    reactionBody: {
+      type: String,
+      required: true,
+      maxlength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (timestamp) => dayjs(timestamp).format('MMM DD, YYYY [at] hh:mm a'),
+    },
+  },
+  {
+    toJSON: {
+      getters: true, // Enable getters in JSON output
+    },
+    id: false, // Disable the default '_id' field
+  }
+);
+
 const thoughtSchema = new mongoose.Schema(
   {
     thoughtText: {
@@ -19,19 +45,15 @@ const thoughtSchema = new mongoose.Schema(
       required: true,
     },
 
-    reactions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reaction',
-      },
-    ],
+    // Embed the reactionSchema directly
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
-      virtuals: true,  // Enable virtuals in JSON output
-      getters: true,   // Enable getters in JSON output
+      virtuals: true, // Enable virtuals in JSON output
+      getters: true,  // Enable getters in JSON output
     },
-    id: false,  // Disable the default '_id' field
+    id: false, // Disable the default '_id' field
   }
 );
 
