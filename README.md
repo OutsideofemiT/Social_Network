@@ -157,7 +157,10 @@ Adding and deleting Reactions
 ## Walkthrough Video
 A walkthrough video demonstrating the functionality of each endpoint is available here:
 
-Video Walkthrough
+https://app.screencastify.com/v3/watch/0mMEdiwZzpjUVihZfoT9
+https://app.screencastify.com/v3/watch/lvnlXZp1fQs1XvkKpknq
+
+
 
 
 ## 🛠️ Tech Stack
